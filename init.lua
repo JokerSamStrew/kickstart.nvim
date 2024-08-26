@@ -59,6 +59,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+
 -- NOTE: Here is where you install your plugins.
 --  You can configure plugins using the `config` key.
 --
@@ -76,7 +77,7 @@ require('lazy').setup({
   'tpope/vim-sleuth',
   {
     "kylechui/nvim-surround",
-    version = "*",   -- Use for stability; omit to use `main` branch for the latest features
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
     config = function()
       require("nvim-surround").setup({
@@ -84,6 +85,28 @@ require('lazy').setup({
       })
     end
   },
+  {
+    'kristijanhusak/vim-dadbod-ui',
+    dependencies = {
+      { 'tpope/vim-dadbod',                     lazy = true },
+      { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql', 'psql' }, lazy = true }, -- Optional
+    },
+    cmd = {
+      'DBUI',
+      'DBUIToggle',
+      'DBUIAddConnection',
+      'DBUIFindBuffer',
+      'DBUIOpen',
+    },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_execute_on_save = 0
+      vim.api.nvim_set_keymap('v', '<Leader>q', ':DB<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<C-s><C-q>', ':DBUIFindBuffer<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<C-s><C-d>', ':DBUIToggle<CR>', { noremap = true })
+    end,
+  },
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -575,3 +598,7 @@ cmp.setup {
 -- vim: ts=2 sts=2 sw=2 et
 vim.keymap.set({ 'n' }, '<Leader>ff', '<cmd>Format<cr>')
 vim.keymap.set({ 'n' }, '<Leader>fs', '<cmd>w<cr>')
+
+vim.g.tabstop = 4       -- Number of spaces a tab represents
+vim.g.shiftwidth = 4    -- Number of spaces for each indentation level
+vim.g.expandtab = true   -- Convert tabs to spaces
