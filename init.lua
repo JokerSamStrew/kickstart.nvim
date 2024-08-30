@@ -104,6 +104,7 @@ require('lazy').setup({
       vim.api.nvim_set_keymap('v', '<Leader>q', ':DB<CR>', { noremap = true })
       vim.api.nvim_set_keymap('n', '<C-s><C-q>', ':DBUIFindBuffer<CR>', { noremap = true })
       vim.api.nvim_set_keymap('n', '<C-s><C-d>', ':DBUIToggle<CR>', { noremap = true })
+
     end,
   },
 
@@ -599,6 +600,12 @@ cmp.setup {
 vim.keymap.set({ 'n' }, '<Leader>ff', '<cmd>Format<cr>')
 vim.keymap.set({ 'n' }, '<Leader>fs', '<cmd>w<cr>')
 
-vim.g.tabstop = 4       -- Number of spaces a tab represents
-vim.g.shiftwidth = 4    -- Number of spaces for each indentation level
-vim.g.expandtab = true   -- Convert tabs to spaces
+
+vim.wo.relativenumber = true
+
+vim.opt.softtabstop = 4
+vim.opt.tabstop = 4       -- Number of spaces a tab represents
+vim.opt.shiftwidth = 4    -- Number of spaces for each indentation level
+vim.opt.expandtab = true   -- Convert tabs to spaces
+vim.opt.encoding = 'utf-8'
+vim.opt.fileencodings = { 'utf-8' }
