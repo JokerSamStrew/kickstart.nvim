@@ -43,36 +43,6 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.g.python3_host_prog = '/Users/Semen/.pyenv/versions/3.12.2/envs/neovim/bin/python3'
-
-local function escape(str)
-  -- You need to escape these characters to work correctly
-  local escape_chars = [[;,."|\]]
-  return vim.fn.escape(str, escape_chars)
-end
-
--- Recommended to use lua template string
-local en = [[`qwertyuiop[]asdfghjkl;'zxcvbnm]]
-local ru = [[ёйцукенгшщзхъфывапролджэячсмить]]
-local en_shift = [[~QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>]]
-local ru_shift = [[ËЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ]]
-
-vim.opt.langmap = vim.fn.join({
-    -- | `to` should be first     | `from` should be second
-    escape(ru_shift) .. ';' .. escape(en_shift),
-    escape(ru) .. ';' .. escape(en),
-}, ',')
-
-vim.wo.relativenumber = true
--- vim.opt.termguicolors = false
-vim.opt.softtabstop = 4
-vim.opt.scrolloff = 20
-vim.opt.tabstop = 4      -- Number of spaces a tab represents
-vim.opt.shiftwidth = 4   -- Number of spaces for each indentation level
-vim.opt.expandtab = true -- Convert tabs to spaces
-vim.opt.encoding = 'utf-8'
-vim.opt.fileencodings = { 'utf-8' }
-
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -156,6 +126,24 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
+  -- No need to copy this inside `setup()`. Will be used automatically.
+  {
+    'echasnovski/mini.icons',
+    -- Icon style: 'glyph' or 'ascii'
+    style              = 'glyph',
+
+    -- Customize per category. See `:h MiniIcons.config` for details.
+    default            = {},
+    directory          = {},
+    extension          = {},
+    file               = {},
+    filetype           = {},
+    lsp                = {},
+    os                 = {},
+
+    -- Control which extensions will be considered during "file" resolution
+    use_file_extension = function(ext, file) return true end,
+  },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -216,7 +204,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-        { '<leader>c', group = '[C]ode',     mode = { 'n', 'x' } },
+        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
@@ -329,14 +317,7 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
-  {
-    'Wansmer/langmapper.nvim',
-    lazy = false,
-    priority = 1, -- High priority is needed if you will use `autoremap()`
-    config = function()
-      require('langmapper').setup({ --[[ your config ]] })
-    end,
-  }
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -592,73 +573,12 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-  pylsp = {
-    pylsp = {
-      plugins = {
-        pylint = {
-          enabled = true,
-        },
-        pyflakes = {
-          enabled = true,
-        },
-        autopep8 = {
-          enabled = true,
-          options = {
-            max_line_length = 150,
-          }
-        },
-        flake8 = {
-          enabled = false,
-        },
-        pycodestyle = {
-          enabled = false,
-        },
-        mccabe = {
-          enabled = false,
-        },
-        yapf = {
-          enabled = false,
-        },
-      }
-    }
-  },
+
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
-  },
-  html = {
-    html = {
-      format = {
-        enable = true,
-      },
-      validate = {
-        enable = true, -- Enable validation
-        tags = {
-          "html",
-          "body",
-          "head",
-          "title",
-          "meta",
-          "link",
-          "script",
-          "style",
-          "div",
-          "span",
-          "a",
-          "img",
-          "table",
-          "tr",
-          "td",
-          "th",
-          "ul",
-          "ol",
-          "li",
-        },
-      },
-    },
-    filetypes = { "html", "xhtml" }
   },
 }
 
@@ -676,17 +596,14 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
-local lspconfig = require('lspconfig')
-
 mason_lspconfig.setup_handlers {
   function(server_name)
-    lspconfig[server_name].setup({
-      settings = servers[server_name],
+    require('lspconfig')[server_name].setup {
       capabilities = capabilities,
       on_attach = on_attach,
+      settings = servers[server_name],
       filetypes = (servers[server_name] or {}).filetypes,
-      cmd = (servers[server_name] or {}).cmd,
-    })
+    }
   end,
 }
 
@@ -742,3 +659,15 @@ cmp.setup {
 -- vim: ts=2 sts=2 sw=2 et
 vim.keymap.set({ 'n' }, '<Leader>ff', '<cmd>Format<cr>')
 vim.keymap.set({ 'n' }, '<Leader>fs', '<cmd>w<cr>')
+
+vim.g.python3_host_prog = '/Users/Semen/.pyenv/versions/3.12.2/envs/neovim/bin/python3'
+
+vim.wo.relativenumber = true
+-- vim.opt.termguicolors = false
+
+vim.opt.softtabstop = 4
+vim.opt.tabstop = 4      -- Number of spaces a tab represents
+vim.opt.shiftwidth = 4   -- Number of spaces for each indentation level
+vim.opt.expandtab = true -- Convert tabs to spaces
+vim.opt.encoding = 'utf-8'
+vim.opt.fileencodings = { 'utf-8' }
