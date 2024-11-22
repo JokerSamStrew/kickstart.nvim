@@ -773,7 +773,7 @@ local function open_selected_url()
     end
 
     -- Join the selected lines into a single string
-    local url = table.concat(selected_lines, "\n")
+    local url = table.concat(selected_lines, " ")
 
     -- Open the URL in the default web browser
     if url ~= "" then
