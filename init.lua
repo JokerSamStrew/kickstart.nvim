@@ -1,3 +1,10 @@
+-- Get the directory containing the init.lua file
+local config_dir = vim.fn.stdpath("config")
+
+-- Add the config directory to the package.path
+local package_path_str = config_dir .. "/?.lua"
+package.path = package.path .. ";" .. package_path_str
+
 local config = require('config_func')
 
 config.setup_globals()
