@@ -24,7 +24,7 @@ config.package_manager().setup({
     plugins.neoformat(),
     plugins.vim_fugitive(),
     plugins.vim_rhubarb(),
-    plugins.vim_sleuth(),
+    -- plugins.vim_sleuth(),
     plugins.nvim_web_devicons(),
     plugins.nvim_surround(),
     plugins.vim_dadbod_ui(),

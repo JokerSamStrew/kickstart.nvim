@@ -51,8 +51,11 @@ function config_func.setup_options()
     vim.opt.softtabstop = 4
     vim.opt.scrolloff = 20
     vim.opt.tabstop = 4      -- Number of spaces a tab represents
+    vim.g.tabstop = 4      -- Number of spaces a tab represents
     vim.opt.shiftwidth = 4   -- Number of spaces for each indentation level
+    vim.g.shiftwidth = 4      -- Number of spaces a tab represents
     vim.opt.expandtab = true -- Convert tabs to spaces
+    vim.g.expandtab  = true      -- Number of spaces a tab represents
     vim.opt.encoding = 'utf-8'
     vim.opt.fileencodings = { 'utf-8' }
 
@@ -130,6 +133,12 @@ function config_func.setup_keymaps()
         })
     end
 
+    local function live_grep_sql_function()
+        telescope_builtin.live_grep({})
+        local regex_search_text =  'CREATE.*OR.*REPLACE.*'
+        vim.api.nvim_feedkeys(regex_search_text, 't', false)
+    end
+
     -- See `:help telescope.builtin`
     vim.keymap.set('n', '<leader>?', telescope_builtin.oldfiles, { desc = '[?] Find recently opened files' })
     vim.keymap.set('n', '<leader><space>', telescope_builtin.buffers, { desc = '[ ] Find existing buffers' })
@@ -150,6 +159,7 @@ function config_func.setup_keymaps()
     local utils = require('utils')
     -- Set up key mapping in visual mode (e.g., <leader>e)
     vim.keymap.set('v', '<Leader>fx', utils.open_selection, { noremap = true })
+    vim.keymap.set('n', '<leader>sq', live_grep_sql_function, { desc = '[S]earch by [Q]uery function' })
 
     -- Diagnostic keymaps
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
