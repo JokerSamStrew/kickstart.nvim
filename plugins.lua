@@ -198,15 +198,38 @@ function plugins.gitsigns()
     }
 end
 
+function plugins.themery()
+    return {
+        'zaldih/themery.nvim',
+        lazy = false,
+        config = function()
+            require("themery").setup({
+                themes = {
+                    'default', 'onedark',
+                    'catppuccin-latte', 'catppuccin-frappe',
+                    'catppuccin-macchiato', 'catppuccin-mocha'
+                },                  -- Your list of installed colorschemes.
+                livePreview = true, -- Apply theme while picking. Default to true.
+                colorscheme = 'onedark'
+            })
+        end
+    }
+end
+
 function plugins.onedark_nvim()
     return {
         -- Theme inspired by Atom
         'navarasu/onedark.nvim',
         priority = 1000,
         config = function()
-            vim.cmd.colorscheme 'onedark'
+            -- vim.cmd.colorscheme 'onedark'
         end,
     }
+end
+
+function plugins.catppuccin_nvim()
+    return
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
 end
 
 function plugins.lualine()
@@ -217,7 +240,7 @@ function plugins.lualine()
         opts = {
             options = {
                 icons_enabled = false,
-                theme = 'onedark',
+                -- theme = 'onedark',
                 component_separators = '|',
                 section_separators = '',
             },

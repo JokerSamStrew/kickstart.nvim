@@ -32,7 +32,11 @@ config.package_manager().setup({
     plugins.nvim_cmp(),
     plugins.which_key(),
     plugins.gitsigns(),
+
+    plugins.themery(),
     plugins.onedark_nvim(),
+    plugins.catppuccin_nvim(),
+
     plugins.lualine(),
     plugins.indent_blankline(),
     plugins.comment(),

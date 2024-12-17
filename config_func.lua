@@ -47,7 +47,7 @@ function config_func.setup_options()
     setup_highlight_on_yank()
 
     vim.wo.relativenumber = true
-    -- vim.opt.termguicolors = false
+    vim.opt.termguicolors = false
     vim.opt.softtabstop = 4
     vim.opt.scrolloff = 20
     vim.opt.tabstop = 4      -- Number of spaces a tab represents
