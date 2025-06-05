@@ -40,8 +40,10 @@ config.package_manager().setup({
     plugins.lualine(),
     plugins.indent_blankline(),
     plugins.comment(),
+    plugins.venv_selector(),
     plugins.telescope(),
     plugins.nvim_treesitter(),
+    plugins.nvim_treesitter_context(),
     plugins.langmapper(),
 }, {})
 

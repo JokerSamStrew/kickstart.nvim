@@ -259,6 +259,28 @@ function plugins.indent_blankline()
     }
 end
 
+function plugins.venv_selector()
+    -- "gc" to comment visual regions/lines
+    return {
+        'linux-cultist/venv-selector.nvim',
+        dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
+        config = function()
+            require('venv-selector').setup {
+                -- Your options go here
+                -- name = "venv",
+                -- auto_refresh = false
+            }
+        end,
+        event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+        keys = {
+            -- Keymap to open VenvSelector to pick a venv.
+            { '<leader>vs', '<cmd>VenvSelect<cr>' },
+            -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
+            { '<leader>vc', '<cmd>VenvSelectCached<cr>' },
+        },
+    }
+end
+
 function plugins.comment()
     -- "gc" to comment visual regions/lines
     return { 'numToStr/Comment.nvim', opts = {} }
@@ -287,6 +309,12 @@ function plugins.telescope()
     }
 end
 
+function plugins.nvim_treesitter_context()
+    return {
+        'nvim-treesitter/nvim-treesitter-context'
+    }
+end
+
 function plugins.nvim_treesitter()
     return {
         -- Highlight, edit, and navigate code
@@ -306,6 +334,15 @@ function plugins.langmapper()
         config = function()
             require('langmapper').setup({ --[[ your config ]] })
         end,
+    }
+end
+
+function plugins.venv_selector__configure()
+    local venv_selector = require('venv-selector')
+
+    venv_selector.setup {
+        --- other configuration
+        changed_venv_hooks = { your_hook_name, venv_selector.hooks.pyright },
     }
 end
 
@@ -469,6 +506,7 @@ function plugins.nvim_lspconfig__configure()
         -- html = { filetypes = { 'html', 'twig', 'hbs'} },
         pylsp = {
             pylsp = {
+                configurationSources = { "pycodestyle" },
                 plugins = {
                     pylint = {
                         enabled = true,
@@ -479,7 +517,7 @@ function plugins.nvim_lspconfig__configure()
                     autopep8 = {
                         enabled = true,
                         options = {
-                            max_line_length = 150,
+                            max_line_length = 200,
                         }
                     },
                     flake8 = {

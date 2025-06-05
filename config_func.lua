@@ -4,9 +4,10 @@ function config_func.setup_globals()
     -- Set <space> as the leader key
     -- See `:help mapleader`
     --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+    vim.g.autopep8_max_line_length=200
     vim.g.mapleader = ' '
     vim.g.maplocalleader = ' '
-    vim.g.python3_host_prog = '/Users/Semen/.pyenv/versions/3.12.2/envs/neovim/bin/python3'
+    -- vim.g.python3_host_prog = '/Users/Semen/.pyenv/versions/3.12.2/envs/neovim/bin/python3'
 end
 
 local function setup_langmap()
