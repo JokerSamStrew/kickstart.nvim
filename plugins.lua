@@ -309,6 +309,51 @@ function plugins.telescope()
     }
 end
 
+function plugins.harpoon()
+    return {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        opts = {
+            menu = {
+                width = vim.api.nvim_win_get_width(0) - 4,
+            },
+            settings = {
+                save_on_toggle = true,
+            },
+        },
+        keys = function()
+            local keys = {
+                {
+                    "<leader>H",
+                    function()
+                        require("harpoon"):list():add()
+                    end,
+                    desc = "Harpoon File",
+                },
+                {
+                    "<leader>h",
+                    function()
+                        local harpoon = require("harpoon")
+                        harpoon.ui:toggle_quick_menu(harpoon:list())
+                    end,
+                    desc = "Harpoon Quick Menu",
+                },
+            }
+
+            for i = 1, 5 do
+                table.insert(keys, {
+                    "<leader>" .. i,
+                    function()
+                        require("harpoon"):list():select(i)
+                    end,
+                    desc = "Harpoon to File " .. i,
+                })
+            end
+            return keys
+        end,
+    }
+end
+
 function plugins.nvim_treesitter_context()
     return {
         'nvim-treesitter/nvim-treesitter-context'
@@ -652,6 +697,57 @@ function plugins.nvim_cmp__configure()
             { name = 'luasnip' },
         },
     }
+end
+
+function plugins.catppuccin_nvim__configure()
+    require("catppuccin").setup({
+        flavour = "auto", -- latte, frappe, macchiato, mocha
+        background = {    -- :h background
+            light = "latte",
+            dark = "mocha",
+        },
+        transparent_background = false, -- disables setting the background color.
+        show_end_of_buffer = false,     -- shows the '~' characters after the end of buffers
+        term_colors = false,            -- sets terminal colors (e.g. `g:terminal_color_0`)
+        dim_inactive = {
+            enabled = false,            -- dims the background color of inactive window
+            shade = "dark",
+            percentage = 0.15,          -- percentage of the shade to apply to the inactive window
+        },
+        no_italic = false,              -- Force no italic
+        no_bold = false,                -- Force no bold
+        no_underline = false,           -- Force no underline
+        styles = {                      -- Handles the styles of general hi groups (see `:h highlight-args`):
+            comments = { "italic" },    -- Change the style of comments
+            conditionals = { "italic" },
+            loops = {},
+            functions = {},
+            keywords = {},
+            strings = {},
+            variables = {},
+            numbers = {},
+            booleans = {},
+            properties = {},
+            types = {},
+            operators = {},
+            -- miscs = {}, -- Uncomment to turn off hard-coded styles
+        },
+        color_overrides = {},
+        custom_highlights = {},
+        default_integrations = true,
+        integrations = {
+            cmp = true,
+            gitsigns = true,
+            nvimtree = true,
+            treesitter = true,
+            notify = false,
+            mini = {
+                enabled = true,
+                indentscope_color = "",
+            },
+            -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+        },
+    })
 end
 
 return plugins

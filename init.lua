@@ -45,6 +45,7 @@ config.package_manager().setup({
     plugins.nvim_treesitter(),
     plugins.nvim_treesitter_context(),
     plugins.langmapper(),
+    plugins.harpoon(),
 }, {})
 
 
@@ -52,5 +53,6 @@ plugins.telescope__configure()
 plugins.nvim_treesitter__configure()
 plugins.nvim_lspconfig__configure()
 plugins.nvim_cmp__configure()
+plugins.catppuccin_nvim__configure()
 
 config.setup_keymaps()
