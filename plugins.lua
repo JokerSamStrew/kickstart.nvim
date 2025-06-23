@@ -332,10 +332,11 @@ function plugins.harpoon()
                 },
                 {
                     "<leader>h",
-                    function()
-                        local harpoon = require("harpoon")
-                        harpoon.ui:toggle_quick_menu(harpoon:list())
-                    end,
+                    -- function()
+                    --     local harpoon = require("harpoon")
+                    --     harpoon.ui:toggle_quick_menu(harpoon:list())
+                    -- end,
+                    ':Telescope harpoon marks<CR>',
                     desc = "Harpoon Quick Menu",
                 },
             }
@@ -407,6 +408,7 @@ function plugins.telescope__configure()
 
     -- Enable telescope fzf native, if installed
     pcall(require('telescope').load_extension, 'fzf')
+    require('telescope').load_extension('harpoon')
 end
 
 function plugins.nvim_treesitter__configure()
