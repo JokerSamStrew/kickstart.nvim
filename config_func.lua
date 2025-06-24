@@ -1,15 +1,5 @@
 local config_func = {}
 
-function config_func.setup_globals()
-  -- Set <space> as the leader key
-  -- See `:help mapleader`
-  --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-  vim.g.autopep8_max_line_length = 200
-  vim.g.mapleader = ' '
-  vim.g.maplocalleader = ' '
-  -- vim.g.python3_host_prog = '/Users/Semen/.pyenv/versions/3.12.2/envs/neovim/bin/python3'
-end
-
 local function setup_langmap()
   local function escape(str)
     -- You need to escape these characters to work correctly
@@ -32,23 +22,10 @@ local function setup_langmap()
   }, ',')
 end
 
-local function setup_highlight_on_yank()
-  -- [[ Highlight on yank ]]
-  -- See `:help vim.highlight.on_yank()`
-  local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-  vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-      vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    pattern = '*',
-  })
-end
-
 function config_func.setup_options()
   setup_langmap()
-  setup_highlight_on_yank()
 
+  vim.g.autopep8_max_line_length = 200
   vim.wo.relativenumber = true
   vim.opt.termguicolors = false
   vim.opt.softtabstop = 4
@@ -102,28 +79,6 @@ function config_func.setup_options()
 
   -- NOTE: You should make sure your terminal supports this
   vim.o.termguicolors = true
-end
-
-function config_func.package_manager()
-  return require 'lazy'
-end
-
-function config_func.install_package_manager()
-  -- Install package manager
-  --    https://github.com/folke/lazy.nvim
-  --    `:help lazy.nvim.txt` for more info
-  local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-  if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system {
-      'git',
-      'clone',
-      '--filter=blob:none',
-      'https://github.com/folke/lazy.nvim.git',
-      '--branch=stable', -- latest stable release
-      lazypath,
-    }
-  end
-  vim.opt.rtp:prepend(lazypath)
 end
 
 function config_func.setup_keymaps()

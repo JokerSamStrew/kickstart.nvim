@@ -89,6 +89,8 @@ local config_dir = vim.fn.stdpath 'config'
 -- Add the config directory to the package.path
 local package_path_str = config_dir .. '/?.lua'
 package.path = package.path .. ';' .. package_path_str
+config = require 'config_func'
+config.setup_options()
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -260,6 +262,7 @@ require('lazy').setup({
   plugins.vim_fugitive(),
   plugins.vim_dadbod_ui(),
   plugins.venv_selector(),
+  plugins.nvim_treesitter_context(),
 
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
@@ -1030,5 +1033,4 @@ require('lazy').setup({
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 --
-config = require 'config_func'
 config.setup_keymaps()
