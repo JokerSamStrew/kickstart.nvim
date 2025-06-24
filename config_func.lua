@@ -99,7 +99,7 @@ function config_func.setup_keymaps()
 
   -- The line beneath this is called `modeline`. See `:help modeline`
   -- vim: ts=2 sts=2 sw=2 et
-  vim.keymap.set({ 'n' }, '<Leader>ff', '<cmd>Format<cr>')
+  -- vim.keymap.set({ 'n' }, '<Leader>ff', '<cmd>Format<cr>')
   vim.keymap.set({ 'n' }, '<Leader>fs', '<cmd>w<cr>')
 
   local utils = require 'utils'

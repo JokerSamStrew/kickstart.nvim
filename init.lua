@@ -700,8 +700,69 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
-        --
-
+        pylsp = {
+          pylsp = {
+            configurationSources = { 'pycodestyle' },
+            plugins = {
+              pylint = {
+                enabled = true,
+              },
+              pyflakes = {
+                enabled = true,
+              },
+              autopep8 = {
+                enabled = true,
+                options = {
+                  max_line_length = 200,
+                },
+              },
+              flake8 = {
+                enabled = false,
+              },
+              pycodestyle = {
+                enabled = false,
+              },
+              mccabe = {
+                enabled = false,
+              },
+              yapf = {
+                enabled = false,
+              },
+            },
+          },
+        },
+        html = {
+          html = {
+            format = {
+              enable = true,
+            },
+            validate = {
+              enable = true, -- Enable validation
+              tags = {
+                'html',
+                'body',
+                'head',
+                'title',
+                'meta',
+                'link',
+                'script',
+                'style',
+                'div',
+                'span',
+                'a',
+                'img',
+                'table',
+                'tr',
+                'td',
+                'th',
+                'ul',
+                'ol',
+                'li',
+              },
+            },
+          },
+          filetypes = { 'html', 'xhtml' },
+        },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -760,7 +821,7 @@ require('lazy').setup({
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>f',
+        '<leader>ff',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
@@ -774,7 +835,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, js = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
@@ -962,11 +1023,12 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'sql' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
         enable = true,
+        disable = { 'sql' },
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
