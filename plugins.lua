@@ -139,6 +139,15 @@ end
 function plugins.nvim_treesitter_context()
   return {
     'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require('treesitter-context').setup {
+        enable = true, -- Enable the context
+        max_lines = 0, -- How many lines the window can be
+        min_window_height = 0, -- Minimum height of the window
+        line_numbers = true, -- Show line numbers
+        multiline_threshold = 20, -- Threshold for multiline context
+      }
+    end,
   }
 end
 
@@ -150,6 +159,15 @@ function plugins.langmapper()
     config = function()
       require('langmapper').setup { --[[ your config ]]
       }
+    end,
+  }
+end
+
+function plugins.nvim_emmet()
+  return {
+    'olrtg/nvim-emmet',
+    config = function()
+      vim.keymap.set({ 'n', 'v' }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
     end,
   }
 end
