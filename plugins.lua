@@ -112,13 +112,16 @@ function plugins.harpoon()
           desc = 'Harpoon File',
         },
         {
-          '<leader>h',
-          -- function()
-          --     local harpoon = require("harpoon")
-          --     harpoon.ui:toggle_quick_menu(harpoon:list())
-          -- end,
+          '<leader>hm',
           ':Telescope harpoon marks<CR>',
           desc = 'Harpoon Quick Menu',
+        },
+        {
+          '<leader>hc',
+          function()
+            require('harpoon'):list():clear()
+          end,
+          desc = 'Harpoon Clear list',
         },
       }
 
