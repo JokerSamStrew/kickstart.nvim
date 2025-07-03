@@ -1,5 +1,19 @@
 local plugins = {}
 
+function plugins.leetcode()
+  return {
+    'kawre/leetcode.nvim',
+    build = ':TSUpdate html', -- if you have `nvim-treesitter` installed
+    dependencies = {
+      -- include a picker of your choice, see picker section for more details
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+    },
+    lazy = 'leetcode.nvim' ~= vim.fn.argv(0, -1),
+    opts = { arg = leet_arg },
+  }
+end
+
 function plugins.neoformat()
   return 'sbdchd/neoformat'
 end

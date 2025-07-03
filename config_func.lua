@@ -106,6 +106,14 @@ function config_func.setup_keymaps()
   -- Set up key mapping in visual mode (e.g., <leader>e)
   vim.keymap.set('v', '<Leader>fx', utils.open_selection, { noremap = true })
   vim.keymap.set('n', '<leader>sq', live_grep_sql_function, { desc = '[S]earch by [Q]uery function' })
+
+  -- Remap j to gj and k to gk for moving by display lines
+  vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = true, silent = true })
+
+  -- Optionally, you can also remap other movement keys
+  vim.api.nvim_set_keymap('n', 'J', 'gJ', { noremap = true, silent = true }) -- for visual mode
+  vim.api.nvim_set_keymap('n', 'K', 'gK', { noremap = true, silent = true }) -- for visual mode
 end
 
 return config_func

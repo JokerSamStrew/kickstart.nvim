@@ -752,7 +752,7 @@ require('lazy').setup({
               },
             },
           },
-          filetypes = { 'html', 'xhtml' },
+          filetypes = { 'html', 'xhtml', 'htmldjango' },
         },
         lua_ls = {
           -- cmd = { ... },
@@ -1086,6 +1086,8 @@ require('lazy').setup({
   -- Or use telescope!
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
+  plugins.leetcode(),
+  plugins.neoformat(),
   plugins.harpoon(),
   plugins.langmapper(),
   plugins.nvim_surround(),
