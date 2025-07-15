@@ -1,5 +1,9 @@
 local plugins = {}
 
+function plugins.blink_cmp_rg()
+  return { 'niuiic/blink-cmp-rg.nvim' }
+end
+
 function plugins.gen()
   return {
     'David-Kunz/gen.nvim',

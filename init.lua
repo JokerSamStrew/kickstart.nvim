@@ -945,13 +945,42 @@ require('lazy').setup({
       completion = {
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        documentation = { auto_show = true, auto_show_delay_ms = 500 },
+        ghost_text = { enabled = true },
+        keyword = { range = 'full' },
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'ripgrep' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          -- other sources
+          ripgrep = {
+            module = 'blink-cmp-rg',
+            name = 'Ripgrep',
+            -- options below are optional, these are the default values
+            ---@type blink-cmp-rg.Options
+            opts = {
+              -- `min_keyword_length` only determines whether to show completion items in the menu,
+              -- not whether to trigger a search. And we only has one chance to search.
+              prefix_min_len = 3,
+              get_command = function(context, prefix)
+                return {
+                  'rg',
+                  '--no-config',
+                  '--json',
+                  '--word-regexp',
+                  '--ignore-case',
+                  '--',
+                  prefix .. '[\\w_-]+',
+                  vim.fs.root(0, '.git') or vim.fn.getcwd(),
+                }
+              end,
+              get_prefix = function(context)
+                return context.line:sub(1, context.cursor[2]):match '[%w_-]+$' or ''
+              end,
+            },
+          },
         },
       },
 
@@ -1097,6 +1126,7 @@ require('lazy').setup({
   plugins.nvim_treesitter_context(),
   plugins.nvim_emmet(),
   plugins.gen(),
+  plugins.blink_cmp_rg(),
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
