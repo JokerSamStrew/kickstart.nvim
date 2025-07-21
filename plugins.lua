@@ -292,6 +292,20 @@ function plugins.harpoon()
           end,
           desc = 'Harpoon Clear list',
         },
+        {
+          '<C-P>',
+          function()
+            require('harpoon'):list():next()
+          end,
+          desc = 'Harpoon Navigate Next',
+        },
+        {
+          '<C-N>',
+          function()
+            require('harpoon'):list():prev()
+          end,
+          desc = 'Harpoon Navigate Previous',
+        },
       }
 
       for i = 1, 5 do

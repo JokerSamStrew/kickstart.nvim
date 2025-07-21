@@ -79,6 +79,13 @@ function config_func.setup_options()
 
   -- NOTE: You should make sure your terminal supports this
   vim.o.termguicolors = true
+
+  vim.api.nvim_create_augroup('AutoSave', { clear = true })
+  vim.api.nvim_create_autocmd('BufLeave', {
+    group = 'AutoSave',
+    pattern = { '*.html', '*.py', '*.js', '*.lua', '*.sql', '*.txt' },
+    command = 'silent! write',
+  })
 end
 
 function config_func.setup_keymaps()
