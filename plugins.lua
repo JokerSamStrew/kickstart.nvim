@@ -10,6 +10,7 @@ function plugins.gen()
     opts = {
       -- model = 'qwen2.5-coder:0.5b', -- The default model to use.
       model = 'codegemma:latest', -- The default model to use.
+      -- model = 'deepseek-r1:latest', -- The default model to use.
 
       quit_map = 'q', -- set keymap to close the response window
       retry_map = '<c-r>', -- set keymap to re-send the current prompt

@@ -88,6 +88,12 @@ function config_func.setup_options()
   })
 end
 
+function config_func.setup_custom_commands()
+  vim.api.nvim_create_user_command('GenCommitMessage', function()
+    vim.cmd 'r! /Users/Semen/.pyenv/versions/diffsense/bin/python $SCRIPTS_PATH/generate_commit_message.py'
+  end, {})
+end
+
 function config_func.setup_keymaps()
   local telescope_builtin = require 'telescope.builtin'
   local function cb_fuzzy_find()
@@ -121,6 +127,8 @@ function config_func.setup_keymaps()
   -- Optionally, you can also remap other movement keys
   vim.api.nvim_set_keymap('n', 'J', 'gJ', { noremap = true, silent = true }) -- for visual mode
   vim.api.nvim_set_keymap('n', 'K', 'gK', { noremap = true, silent = true }) -- for visual mode
+
+  vim.keymap.set({ 'n', 'v' }, '<leader>g', ':Gen<CR>', { desc = 'Gen AI' })
 end
 
 return config_func
