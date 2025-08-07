@@ -92,6 +92,30 @@ function config_func.setup_custom_commands()
   vim.api.nvim_create_user_command('GenCommitMessage', function()
     vim.cmd 'r! /Users/Semen/.pyenv/versions/diffsense/bin/python $SCRIPTS_PATH/generate_commit_message.py'
   end, {})
+
+  vim.api.nvim_create_user_command('GitLabChooseMR', function(opts)
+    require('gitlab').choose_merge_request()
+  end, { nargs = '?' })
+
+  vim.api.nvim_create_user_command('GitLabMRPipeline', function(opts)
+    require('gitlab').pipeline()
+  end, { nargs = '?' })
+
+  vim.api.nvim_create_user_command('GitLabMergeCurrentMR', function(opts)
+    require('gitlab').merge()
+  end, { nargs = '?' })
+
+  vim.api.nvim_create_user_command('GitLabMRSummary', function(opts)
+    require('gitlab').summary()
+  end, { nargs = '?' })
+
+  vim.api.nvim_create_user_command('GitLabMainMergeRequest', function(opts)
+    require('gitlab').create_mr { target = 'main' }
+  end, { nargs = '?' })
+
+  vim.api.nvim_create_user_command('GitLabTestMergeRequest', function(opts)
+    require('gitlab').create_mr { target = 'test_dev' }
+  end, { nargs = '?' })
 end
 
 function config_func.setup_keymaps()
