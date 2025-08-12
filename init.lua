@@ -1142,6 +1142,7 @@ require('lazy').setup({
   plugins.gen(),
   plugins.blink_cmp_rg(),
   plugins.gitlab(),
+  plugins.fm_nvim(),
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
