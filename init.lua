@@ -965,10 +965,27 @@ require('lazy').setup({
 
       sources = {
         -- default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'ripgrep' },
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'minuet' },
+        {
+          name = 'buffer',
+          opts = {
+            get_bufnrs = function()
+              return vim.api.nvim_list_bufs() -- returns all open buffers
+            end,
+          },
+        },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
           -- other sources
+          minuet = {
+            name = 'minuet',
+            module = 'minuet.blink',
+            async = true,
+            -- Should match minuet.config.request_timeout * 1000,
+            -- since minuet.config.request_timeout is in seconds
+            timeout_ms = 3000,
+            score_offset = 50, -- Gives minuet higher priority among suggestions
+          },
           ripgrep = {
             module = 'blink-cmp-rg',
             name = 'Ripgrep',
@@ -1143,6 +1160,7 @@ require('lazy').setup({
   plugins.blink_cmp_rg(),
   plugins.gitlab(),
   plugins.fm_nvim(),
+  plugins.minuet_ai(),
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
