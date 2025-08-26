@@ -114,7 +114,7 @@ function config_func.setup_custom_commands()
   end, { nargs = '?' })
 
   vim.api.nvim_create_user_command('GitLabTestMergeRequest', function(opts)
-    require('gitlab').create_mr { target = 'test_dev' }
+    require('gitlab').create_mr { target = 'test_dev', delete_branch = true }
   end, { nargs = '?' })
 end
 
