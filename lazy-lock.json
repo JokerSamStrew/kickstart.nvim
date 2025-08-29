@@ -7,6 +7,7 @@
   "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
   "fidget.nvim": { "branch": "main", "commit": "4d5858bd4c471c895060e1b9f3575f1551184dc5" },
   "fm-nvim": { "branch": "master", "commit": "8e6a77049330e7c797eb9e63affd75eb796fe75e" },
+  "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
   "gen.nvim": { "branch": "main", "commit": "c8e1f574d4a3a839dde73a87bdc319a62ee1e559" },
   "gitlab.nvim": { "branch": "main", "commit": "e29909cd1064a7b53c3150bff49449a548dadf8d" },
   "gitsigns.nvim": { "branch": "main", "commit": "6e3c66548035e50db7bd8e360a29aec6620c3641" },
