@@ -1,18 +1,31 @@
 local plugins = {}
 
+function plugins.dooing()
+    return {
+        "atiladefreitas/dooing",
+        config = function()
+            require("dooing").setup({
+                -- your custom config here (optional)
+            })
+        end,
+    }
+end
+
 function plugins.minuet_ai()
     return {
         'milanglacier/minuet-ai.nvim',
         config = function()
             require('minuet').setup {
                 provider = 'openai_fim_compatible',
-                n_completions = 1, -- recommend for local model for resource saving
+                -- provider = 'openai_compatible',
+                n_completions = 2, -- recommend for local model for resource saving
                 -- I recommend beginning with a small context window size and incrementally
                 -- expanding it, depending on your local computing power. A context window
                 -- of 512, serves as an good starting point to estimate your computing
                 -- power. Once you have a reliable estimate of your local computing power,
                 -- you should adjust the context window to a larger value.
                 context_window = 512,
+                -- context_window = 1024,
                 provider_options = {
                     openai_fim_compatible = {
                         -- For Windows users, TERM may not be present in environment variables.
@@ -25,6 +38,17 @@ function plugins.minuet_ai()
                         optional = {
                             max_tokens = 56,
                             top_p = 0.9,
+                        },
+                    },
+                    openai_compatible = {
+                        -- For Windows users, TERM may not be present in environment variables.
+                        -- Consider using APPDATA instead.
+                        api_key = (function() return 'osaurus' end),
+                        name = 'Osaurus',
+                        end_point = 'http://127.0.0.1:8080/v1/chat/completions',
+                        model = 'deepseek-coder-v2-lite-instruct-4bit-awq',
+                        optional = {
+                            max_tokens = 56,
                         },
                     },
                 },

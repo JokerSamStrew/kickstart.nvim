@@ -101,6 +101,10 @@ function config_func.setup_custom_snippets()
         ''
     }))
     })
+    ls.add_snippets('sql', { ls.parser.parse_snippet('snnoj', table.concat({
+        'select * from name_update_json(\'${1:key}\', \'${2:set}\', \'${3:name}\',NULL, NULL, 1, 1, \'ru\');',
+    }, '\n'))
+    })
     ls.add_snippets('sql', { ls.parser.parse_snippet('snfuncjsobj', table.concat({
         'CREATE OR REPLACE FUNCTION ${1:name}_json(',
         ') RETURNS JSON AS $$',
@@ -177,11 +181,12 @@ function config_func.setup_custom_commands()
     end, { nargs = '?' })
 
     vim.api.nvim_create_user_command('GitLabMainMergeRequest', function(opts)
-        require('gitlab').create_mr { target = 'main' }
+        require('gitlab').create_mr { target = 'main', source = 'test_dev' }
     end, { nargs = '?' })
 
     vim.api.nvim_create_user_command('GitLabTestMergeRequest', function(opts)
         require('gitlab').create_mr { target = 'test_dev', delete_branch = true }
+        require('gitlab').merge()
     end, { nargs = '?' })
 end
 
@@ -210,6 +215,10 @@ function config_func.setup_keymaps()
     -- Set up key mapping in visual mode (e.g., <leader>e)
     vim.keymap.set('v', '<Leader>fx', utils.open_selection, { noremap = true })
     vim.keymap.set('n', '<leader>sq', live_grep_sql_function, { desc = '[S]earch by [Q]uery function' })
+
+    vim.keymap.set('n', '<leader>G', ':Git<CR>', { desc = '[G]it' })
+    vim.keymap.set('n', '<leader>D', ':Dooing<CR>', { desc = '[D]ooing' })
+    vim.keymap.set('n', '<leader>V', ':Vifm<CR>', { desc = '[V]ifm' })
 
     -- Remap j to gj and k to gk for moving by display lines
     vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true })

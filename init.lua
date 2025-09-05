@@ -1174,6 +1174,7 @@ require('lazy').setup({
   plugins.gitlab(),
   plugins.fm_nvim(),
   plugins.minuet_ai(),
+  plugins.dooing(),
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
