@@ -6,6 +6,7 @@ function plugins.dooing()
         config = function()
             require("dooing").setup({
                 -- your custom config here (optional)
+                vim.keymap.set('n', '<leader>D', ':Dooing<CR>', { desc = '[D]ooing' })
             })
         end,
     }
@@ -136,6 +137,8 @@ function plugins.fm_nvim()
                 -- Path to broot config
                 broot_conf = vim.fn.stdpath 'data' .. '/site/pack/packer/start/fm-nvim/assets/broot_conf.hjson',
             }
+
+            vim.keymap.set('n', '<leader>V', ':Vifm<CR>', { desc = '[V]ifm' })
         end,
     }
 end
@@ -155,6 +158,30 @@ function plugins.gitlab()
         end, -- Builds the Go binary
         config = function()
             require('gitlab').setup()
+            vim.api.nvim_create_user_command('GitLabChooseMR', function()
+                require('gitlab').choose_merge_request()
+            end, { nargs = '?' })
+
+            vim.api.nvim_create_user_command('GitLabMRPipeline', function()
+                require('gitlab').pipeline()
+            end, { nargs = '?' })
+
+            vim.api.nvim_create_user_command('GitLabMergeCurrentMR', function()
+                require('gitlab').merge()
+            end, { nargs = '?' })
+
+            vim.api.nvim_create_user_command('GitLabMRSummary', function()
+                require('gitlab').summary()
+            end, { nargs = '?' })
+
+            vim.api.nvim_create_user_command('GitLabMainMergeRequest', function()
+                require('gitlab').create_mr { target = 'main', source = 'test_dev' }
+            end, { nargs = '?' })
+
+            vim.api.nvim_create_user_command('GitLabTestMergeRequest', function()
+                require('gitlab').create_mr { target = 'test_dev', delete_branch = true }
+                require('gitlab').merge()
+            end, { nargs = '?' })
         end,
     }
 end
@@ -199,6 +226,9 @@ function plugins.gen()
             result_filetype = 'markdown', -- Configure filetype of the result buffer
             debug = false,                -- Prints errors and the command which is run.
         },
+        config = function()
+            vim.keymap.set({ 'n', 'v' }, '<leader>g', ':Gen<CR>', { desc = 'Gen AI' })
+        end
     }
 end
 
@@ -331,12 +361,38 @@ function plugins.leetcode()
 end
 
 function plugins.neoformat()
-    return 'sbdchd/neoformat'
+    return {
+        'sbdchd/neoformat',
+        config = function()
+            -- vim.g.neoformat_verbose = 1
+            -- vim.g.neoformat_verbose = 0
+            vim.keymap.set('n', '<leader>nf', ':Neoformat<CR>', { desc = '[N]eo[f]ormat' })
+            vim.g.neoformat_sql_pg_format = {
+                exe = 'pg_format',
+                args = {
+                    '--keep-newline',
+                    '--keyword-case 0',
+                    '--type-case 0',
+                    '--comma-end',
+                    '--comma-break',
+                    '--no-space-function',
+                    '--format-type'
+                },
+                stdin = 1,
+                valid_exit_codes = { 0, 1 },
+            }
+        end
+    }
 end
 
 function plugins.vim_fugitive()
     -- Git related plugins
-    return 'tpope/vim-fugitive'
+    return {
+        'tpope/vim-fugitive',
+        config = function()
+            vim.keymap.set('n', '<leader>G', ':Git<CR>', { desc = '[G]it' })
+        end
+    }
 end
 
 function plugins.nvim_web_devicons()

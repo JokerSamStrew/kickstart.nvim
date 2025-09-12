@@ -163,31 +163,6 @@ function config_func.setup_custom_commands()
     vim.api.nvim_create_user_command('GenCommitMessage', function()
         vim.cmd 'r! /Users/Semen/.pyenv/versions/diffsense/bin/python $SCRIPTS_PATH/generate_commit_message.py'
     end, {})
-
-    vim.api.nvim_create_user_command('GitLabChooseMR', function(opts)
-        require('gitlab').choose_merge_request()
-    end, { nargs = '?' })
-
-    vim.api.nvim_create_user_command('GitLabMRPipeline', function(opts)
-        require('gitlab').pipeline()
-    end, { nargs = '?' })
-
-    vim.api.nvim_create_user_command('GitLabMergeCurrentMR', function(opts)
-        require('gitlab').merge()
-    end, { nargs = '?' })
-
-    vim.api.nvim_create_user_command('GitLabMRSummary', function(opts)
-        require('gitlab').summary()
-    end, { nargs = '?' })
-
-    vim.api.nvim_create_user_command('GitLabMainMergeRequest', function(opts)
-        require('gitlab').create_mr { target = 'main', source = 'test_dev' }
-    end, { nargs = '?' })
-
-    vim.api.nvim_create_user_command('GitLabTestMergeRequest', function(opts)
-        require('gitlab').create_mr { target = 'test_dev', delete_branch = true }
-        require('gitlab').merge()
-    end, { nargs = '?' })
 end
 
 function config_func.setup_keymaps()
@@ -216,10 +191,6 @@ function config_func.setup_keymaps()
     vim.keymap.set('v', '<Leader>fx', utils.open_selection, { noremap = true })
     vim.keymap.set('n', '<leader>sq', live_grep_sql_function, { desc = '[S]earch by [Q]uery function' })
 
-    vim.keymap.set('n', '<leader>G', ':Git<CR>', { desc = '[G]it' })
-    vim.keymap.set('n', '<leader>D', ':Dooing<CR>', { desc = '[D]ooing' })
-    vim.keymap.set('n', '<leader>V', ':Vifm<CR>', { desc = '[V]ifm' })
-
     -- Remap j to gj and k to gk for moving by display lines
     vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true })
     vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = true, silent = true })
@@ -228,7 +199,6 @@ function config_func.setup_keymaps()
     vim.api.nvim_set_keymap('n', 'J', 'gJ', { noremap = true, silent = true }) -- for visual mode
     vim.api.nvim_set_keymap('n', 'K', 'gK', { noremap = true, silent = true }) -- for visual mode
 
-    vim.keymap.set({ 'n', 'v' }, '<leader>g', ':Gen<CR>', { desc = 'Gen AI' })
 end
 
 return config_func
