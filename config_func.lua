@@ -198,7 +198,6 @@ function config_func.setup_keymaps()
     -- Optionally, you can also remap other movement keys
     vim.api.nvim_set_keymap('n', 'J', 'gJ', { noremap = true, silent = true }) -- for visual mode
     vim.api.nvim_set_keymap('n', 'K', 'gK', { noremap = true, silent = true }) -- for visual mode
-
 end
 
 return config_func

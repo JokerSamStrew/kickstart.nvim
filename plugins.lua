@@ -381,6 +381,26 @@ function plugins.neoformat()
                 stdin = 1,
                 valid_exit_codes = { 0, 1 },
             }
+
+            vim.g.neoformat_enabled_sql = { 'pg_format' }
+
+            vim.g.neoformat_javascript_prettier = {
+                exe = 'prettier',
+                args = {
+                    '--print-width', '80',
+                    '--single-quote',
+                    '--trailing-comma', 'es5',
+                    '--tab-width', '4',
+                    '--no-bracket-spacing',
+                    '--single-attribute-per-line',
+                    '--parser',
+                    'babel'
+                },
+                valid_exit_codes = { 0, 1 },
+            }
+
+            vim.g.neoformat_enabled_javascript = { 'prettier' }
+            vim.g.neoformat_enabled_css = { 'prettier' }
         end
     }
 end
@@ -407,6 +427,12 @@ function plugins.nvim_surround()
         config = function()
             require('nvim-surround').setup {
                 -- Configuration here, or leave empty to use defaults
+                ['('] = { add = { '(', ')' } },
+                [')'] = { add = { '(', ')' } },
+                ['{'] = { add = { '{', '}' } },
+                ['}'] = { add = { '{', '}' } },
+                ['['] = { add = { '[', ']' } },
+                [']'] = { add = { '[', ']' } },
             }
         end,
     }
@@ -432,6 +458,23 @@ function plugins.vim_dadbod_ui()
             vim.api.nvim_set_keymap('v', '<Leader>q', ':DB<CR>', { noremap = true })
             vim.api.nvim_set_keymap('n', '<C-s><C-q>', ':DBUIFindBuffer<CR>', { noremap = true })
             vim.api.nvim_set_keymap('n', '<C-s><C-d>', ':DBUIToggle<CR>', { noremap = true })
+            local utils = require 'utils'
+            vim.keymap.set('n', '<leader>fq',
+                function()
+                    utils.select_up_down_patterns('CREATE OR REPLACE', 'plpgsql;')
+                    vim.cmd('\'<,\'>DB')
+                    vim.cmd('norm [{')
+                end,
+                { noremap = true, silent = true, desc = 'Execution sql [f]untion [q]uery' }
+            )
+            vim.keymap.set('n', '<leader>se',
+                function()
+                    vim.cmd('norm 0')
+                    utils.select_up_down_patterns(nil, ';')
+                    vim.cmd('\'<,\'>DB')
+                end,
+                { noremap = true, silent = true, desc = 'Execution [s]ql [e]xpression' }
+            )
         end,
     }
 end
