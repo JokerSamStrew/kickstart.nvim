@@ -39,7 +39,7 @@ function utils.select_up_down_patterns(up_pattern, down_pattern)
     local end_line = cursor[1] - 1
 
     -- Find the upper boundary line by searching backward for the up_pattern
-    if not up_pattern == nil then
+    if up_pattern ~= nil then
         for line_num = start_line, 0, -1 do
             local line = api.nvim_buf_get_lines(bufnr, line_num, line_num + 1, false)[1]
             if line and line:find(up_pattern) then
@@ -49,7 +49,7 @@ function utils.select_up_down_patterns(up_pattern, down_pattern)
         end
     end
 
-    if not down_pattern == nil then
+    if down_pattern ~= nil then
         -- Find the lower boundary line by searching forward for the down_pattern
         local line_count = api.nvim_buf_line_count(bufnr)
         for line_num = cursor[1] - 1, line_count - 1 do

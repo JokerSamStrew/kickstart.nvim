@@ -393,8 +393,19 @@ function plugins.neoformat()
                     '--tab-width', '4',
                     '--no-bracket-spacing',
                     '--single-attribute-per-line',
-                    '--parser',
-                    'babel'
+                    '--parser', 'babel'
+                },
+                valid_exit_codes = { 0, 1 },
+            }
+
+            vim.g.neoformat_css_prettier = {
+                exe = 'prettier',
+                args = {
+                    '--parser', 'css',
+                    '--print-width', '120',
+                    '--single-quote',
+                    '--tab-width', '4',
+                    '--stdin-filepath', '%:p'
                 },
                 valid_exit_codes = { 0, 1 },
             }
@@ -462,8 +473,8 @@ function plugins.vim_dadbod_ui()
             vim.keymap.set('n', '<leader>fq',
                 function()
                     utils.select_up_down_patterns('CREATE OR REPLACE', 'plpgsql;')
-                    vim.cmd('\'<,\'>DB')
-                    vim.cmd('norm [{')
+                    -- vim.cmd('\'<,\'>DB')
+                    -- vim.cmd('norm [{')
                 end,
                 { noremap = true, silent = true, desc = 'Execution sql [f]untion [q]uery' }
             )
@@ -471,7 +482,7 @@ function plugins.vim_dadbod_ui()
                 function()
                     vim.cmd('norm 0')
                     utils.select_up_down_patterns(nil, ';')
-                    vim.cmd('\'<,\'>DB')
+                    -- vim.cmd('\'<,\'>DB')
                 end,
                 { noremap = true, silent = true, desc = 'Execution [s]ql [e]xpression' }
             )
