@@ -101,6 +101,42 @@ function config_func.setup_custom_snippets()
         ''
     }))
     })
+    ls.add_snippets('sql', { ls.parser.parse_snippet('sncase', table.concat({
+        'CASE',
+        '   WHEN ${1:cond} THEN ${2:result}',
+        '   ELSE ${3:result}',
+        'END',
+    }, '\n'))
+    })
+    ls.add_snippets('sql', { ls.parser.parse_snippet('snif', table.concat({
+        '   IF ${1:cond} THEN',
+        '',
+        '   END IF;',
+    }, '\n'))
+    })
+    ls.add_snippets('sql', { ls.parser.parse_snippet('snifel', table.concat({
+        '   IF ${1:cond} THEN',
+        '',
+        '   ELSE',
+        '',
+        '   END IF;',
+    }, '\n'))
+    })
+    ls.add_snippets('sql', { ls.parser.parse_snippet('snfor', table.concat({
+        '   FOR ${1:record} IN {2:query}',
+        '   LOOP',
+        '',
+        '   END LOOP;',
+    }, '\n'))
+    })
+    ls.add_snippets('sql', { ls.parser.parse_snippet('sndop', table.concat({
+        'DO $$ DECLARE',
+        'BEGIN',
+        '',
+        'END $$;'
+    }, '\n'))
+    })
+
     ls.add_snippets('sql', { ls.parser.parse_snippet('snnoj', table.concat({
         'select * from name_update_json(\'${1:key}\', \'${2:set}\', \'${3:name}\',NULL, NULL, 1, 1, \'ru\');',
     }, '\n'))
