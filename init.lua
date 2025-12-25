@@ -974,11 +974,19 @@ require('lazy').setup({
         documentation = { auto_show = true, auto_show_delay_ms = 500 },
         ghost_text = { enabled = true },
         keyword = { range = 'full' },
+        menu = {
+          draw = {
+            columns = {
+              { "kind_icon", "label", "label_description", "source_name", gap = 1 },
+            },
+          },
+        },
       },
 
       sources = {
-        -- default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'ripgrep' },
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'minuet' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'ripgrep_expressions', 'ripgrep_words' },
+        -- default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'ripgrep', 'minuet' },
+        -- default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'minuet' },
         {
           name = 'buffer',
           opts = {
@@ -996,32 +1004,78 @@ require('lazy').setup({
             async = true,
             -- Should match minuet.config.request_timeout * 1000,
             -- since minuet.config.request_timeout is in seconds
-            timeout_ms = 2000,
-            score_offset = 50, -- Gives minuet higher priority among suggestions
+            prefix_min_len = 7,
+            prefix_max_len = 10,
+            score_offset = 100, -- Gives minuet higher priority among suggestions
+            timeout_ms = 1000,
           },
-          ripgrep = {
+          ripgrep_words = {
             module = 'blink-cmp-rg',
-            name = 'Ripgrep',
+            name = 'rgw',
             -- options below are optional, these are the default values
             ---@type blink-cmp-rg.Options
             opts = {
               -- `min_keyword_length` only determines whether to show completion items in the menu,
               -- not whether to trigger a search. And we only has one chance to search.
-              prefix_min_len = 3,
               get_command = function(context, prefix)
+                local ext = vim.fn.expand('%:e');
+                local root = vim.fs.root(0, '.git') or vim.fn.getcwd();
                 return {
                   'rg',
                   '--no-config',
                   '--json',
                   '--word-regexp',
                   '--ignore-case',
+                  '--max-count', '1',
+                  '--glob', '*.' .. ext,
                   '--',
-                  prefix .. '[\\w_-]+',
-                  vim.fs.root(0, '.git') or vim.fn.getcwd(),
+                  prefix .. '[\\w_-]+$',
+                  root,
                 }
               end,
+              score_offset = 500, -- Gives minuet higher priority among suggestions
+              prefix_min_len = 2,
+              prefix_max_len = 6,
+              timeout_ms = 10,
+
               get_prefix = function(context)
                 return context.line:sub(1, context.cursor[2]):match '[%w_-]+$' or ''
+              end,
+            },
+          },
+          ripgrep_expressions = {
+            module = 'blink-cmp-rg',
+            name = 'rge',
+            -- options below are optional, these are the default values
+            ---@type blink-cmp-rg.Options
+            opts = {
+              -- `min_keyword_length` only determines whether to show completion items in the menu,
+              -- not whether to trigger a search. And we only has one chance to search.
+              get_command = function(context, prefix)
+                local ext = vim.fn.expand('%:e');
+                local root = vim.fs.root(0, '.git') or vim.fn.getcwd();
+                return {
+                  'rg',
+                  '--no-config',
+                  '--json',
+                  '--trim',
+                  '--word-regexp',
+                  '--ignore-case',
+                  '--max-count', '2',
+                  '--glob', '*.' .. ext,
+                  '--',
+                  prefix .. '.*$',
+                  root,
+                }
+              end,
+              score_offset = 500, -- Gives minuet higher priority among suggestions
+              prefix_min_len = 7,
+              prefix_max_len = 100,
+              timeout_ms = 1000,
+
+              get_prefix = function(context)
+                -- return context.line:sub(1, context.cursor[2]):match '[%w_-]+$' or ''
+                return context.line:sub(1, context.cursor[2]):match("[%w_-]+$") or ''
               end,
             },
           },
