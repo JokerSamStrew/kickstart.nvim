@@ -1004,10 +1004,10 @@ require('lazy').setup({
             async = true,
             -- Should match minuet.config.request_timeout * 1000,
             -- since minuet.config.request_timeout is in seconds
-            prefix_min_len = 7,
+            prefix_min_len = 0,
             prefix_max_len = 10,
             score_offset = 100, -- Gives minuet higher priority among suggestions
-            timeout_ms = 1000,
+            timeout_ms = 10,
           },
           ripgrep_words = {
             module = 'blink-cmp-rg',
@@ -1069,13 +1069,13 @@ require('lazy').setup({
                 }
               end,
               score_offset = 500, -- Gives minuet higher priority among suggestions
-              prefix_min_len = 7,
+              prefix_min_len = 5,
               prefix_max_len = 100,
               timeout_ms = 1000,
 
               get_prefix = function(context)
                 -- return context.line:sub(1, context.cursor[2]):match '[%w_-]+$' or ''
-                return context.line:sub(1, context.cursor[2]):match("[%w_-]+$") or ''
+                return context.line:sub(1, context.cursor[2]):gsub("^%s*(.-)%s*$", "%1")
               end,
             },
           },

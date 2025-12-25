@@ -26,7 +26,7 @@ function plugins.minuet_ai()
                 -- power. Once you have a reliable estimate of your local computing power,
                 -- you should adjust the context window to a larger value.
                 -- context_window = 512,
-                context_window = 1024,
+                context_window = 128,
                 provider_options = {
                     openai_fim_compatible = {
                         -- For Windows users, TERM may not be present in environment variables.
@@ -34,14 +34,14 @@ function plugins.minuet_ai()
                         api_key = 'TERM',
                         name = 'Ollama',
                         -- end_point = 'http://localhost:8989/v1/completions',
-                        -- model = 'mistral',
+                        -- model = 'mistral:text',
                         end_point = 'http://localhost:11434/v1/completions',
                         model = 'qwen2.5-coder:7b',
-                        -- model = 'mistral:text',
                         optional = {
-                            max_tokens = 28,
-                            -- temperature = 0.5,
-                            -- top_p = 0.85,
+                            max_tokens = 3,
+                            top_k = 3,
+                            temperature = 1,
+                            top_p = 0.85,
                         },
                     },
                     openai_compatible = {
