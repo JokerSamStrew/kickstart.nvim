@@ -984,7 +984,7 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'ripgrep_expressions', 'ripgrep_words' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'ripgrep_words' },
         -- default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'ripgrep', 'minuet' },
         -- default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'minuet' },
         {
@@ -1004,8 +1004,6 @@ require('lazy').setup({
             async = true,
             -- Should match minuet.config.request_timeout * 1000,
             -- since minuet.config.request_timeout is in seconds
-            prefix_min_len = 0,
-            prefix_max_len = 10,
             score_offset = 100, -- Gives minuet higher priority among suggestions
             timeout_ms = 10,
           },
@@ -1068,7 +1066,7 @@ require('lazy').setup({
                   root,
                 }
               end,
-              score_offset = 500, -- Gives minuet higher priority among suggestions
+              score_offset = 50, -- Gives minuet higher priority among suggestions
               prefix_min_len = 5,
               prefix_max_len = 100,
               timeout_ms = 1000,

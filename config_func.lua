@@ -84,7 +84,12 @@ function config_func.setup_options()
     vim.api.nvim_create_autocmd('BufLeave', {
         group = 'AutoSave',
         pattern = { '*.html', '*.py', '*.js', '*.lua', '*.sql', '*.txt' },
-        command = 'silent! write',
+        callback = function()
+            if not vim.bo.modifiable or vim.bo.readonly then
+                return
+            end
+            vim.cmd('silent! write')
+        end
     })
 end
 
