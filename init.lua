@@ -309,7 +309,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -390,7 +390,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -509,7 +509,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim',    opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -977,7 +977,7 @@ require('lazy').setup({
         menu = {
           draw = {
             columns = {
-              { "kind_icon", "label", "label_description", "source_name", gap = 1 },
+              { 'kind_icon', 'label', 'label_description', 'source_name', gap = 1 },
             },
           },
         },
@@ -1016,16 +1016,18 @@ require('lazy').setup({
               -- `min_keyword_length` only determines whether to show completion items in the menu,
               -- not whether to trigger a search. And we only has one chance to search.
               get_command = function(context, prefix)
-                local ext = vim.fn.expand('%:e');
-                local root = vim.fs.root(0, '.git') or vim.fn.getcwd();
+                local ext = vim.fn.expand '%:e'
+                local root = vim.fs.root(0, '.git') or vim.fn.getcwd()
                 return {
                   'rg',
                   '--no-config',
                   '--json',
                   '--word-regexp',
                   '--ignore-case',
-                  '--max-count', '1',
-                  '--glob', '*.' .. ext,
+                  '--max-count',
+                  '1',
+                  '--glob',
+                  '*.' .. ext,
                   '--',
                   prefix .. '[\\w_-]+$',
                   root,
@@ -1050,8 +1052,8 @@ require('lazy').setup({
               -- `min_keyword_length` only determines whether to show completion items in the menu,
               -- not whether to trigger a search. And we only has one chance to search.
               get_command = function(context, prefix)
-                local ext = vim.fn.expand('%:e');
-                local root = vim.fs.root(0, '.git') or vim.fn.getcwd();
+                local ext = vim.fn.expand '%:e'
+                local root = vim.fs.root(0, '.git') or vim.fn.getcwd()
                 return {
                   'rg',
                   '--no-config',
@@ -1059,8 +1061,10 @@ require('lazy').setup({
                   '--trim',
                   '--word-regexp',
                   '--ignore-case',
-                  '--max-count', '2',
-                  '--glob', '*.' .. ext,
+                  '--max-count',
+                  '2',
+                  '--glob',
+                  '*.' .. ext,
                   '--',
                   prefix .. '.*$',
                   root,
@@ -1073,7 +1077,7 @@ require('lazy').setup({
 
               get_prefix = function(context)
                 -- return context.line:sub(1, context.cursor[2]):match '[%w_-]+$' or ''
-                return context.line:sub(1, context.cursor[2]):gsub("^%s*(.-)%s*$", "%1")
+                return context.line:sub(1, context.cursor[2]):gsub('^%s*(.-)%s*$', '%1')
               end,
             },
           },
