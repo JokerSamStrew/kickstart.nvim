@@ -1,10 +1,10 @@
 local utils = {}
 
 function utils.open_selection()
-    vim.cmd('normal! <E>')
+    vim.cmd 'normal! <E>'
 
     local function trim(s)
-        return s:match("^%s*(.-)%s*$") or ""
+        return s:match '^%s*(.-)%s*$' or ''
     end
     -- Get the start and end positions of the visual selection
     local function region_to_text(region)
@@ -20,14 +20,14 @@ function utils.open_selection()
 
     local r = vim.region(0, "'<", "'>", vim.fn.visualmode(), true)
 
-    local open_object = region_to_text(r);
+    local open_object = region_to_text(r)
 
-    if open_object ~= "" then
+    if open_object ~= '' then
         -- os.execute("xdg-open " .. vim.fn.shellescape(url))  -- For Linux
-        os.execute("open " .. vim.fn.shellescape(open_object) .. " 2>/dev/null") -- For macOS
+        os.execute('open ' .. vim.fn.shellescape(open_object) .. ' 2>/dev/null') -- For macOS
         -- os.execute("start " .. vim.fn.shellescape(url))  -- For Windows
     else
-        print("Empty selection")
+        print 'Empty selection'
     end
 end
 
