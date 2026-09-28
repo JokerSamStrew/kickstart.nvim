@@ -35,11 +35,11 @@ function utils.select_up_down_patterns(up_pattern, down_pattern)
     local api = vim.api
     local bufnr = api.nvim_get_current_buf()
     local cursor = api.nvim_win_get_cursor(0)
-    local start_line = cursor[1] - 1 -- Lua index starts at 0 for nvim_buf_get_lines
+    local start_line = cursor[1] - 1 -- 0-based Lua indexing
     local end_line = cursor[1] - 1
 
-    -- Find the upper boundary line by searching backward for the up_pattern
-    if up_pattern ~= nil then
+    -- Find upper boundary (search backward)
+    if up_pattern then
         for line_num = start_line, 0, -1 do
             local line = api.nvim_buf_get_lines(bufnr, line_num, line_num + 1, false)[1]
             if line and line:find(up_pattern) then
@@ -49,10 +49,10 @@ function utils.select_up_down_patterns(up_pattern, down_pattern)
         end
     end
 
-    if down_pattern ~= nil then
-        -- Find the lower boundary line by searching forward for the down_pattern
+    -- Find lower boundary (search forward)
+    if down_pattern then
         local line_count = api.nvim_buf_line_count(bufnr)
-        for line_num = cursor[1] - 1, line_count - 1 do
+        for line_num = cursor[1] - 1, line_count - 1 do -- Fix: start from current line
             local line = api.nvim_buf_get_lines(bufnr, line_num, line_num + 1, false)[1]
             if line and line:find(down_pattern) then
                 end_line = line_num
@@ -61,10 +61,15 @@ function utils.select_up_down_patterns(up_pattern, down_pattern)
         end
     end
 
-    -- Start visual line mode selection from start_line to end_line
-    api.nvim_win_set_cursor(0, { start_line + 1, 0 }) -- Move cursor to start line
-    vim.cmd('normal! V')                              -- Start linewise visual mode
-    api.nvim_win_set_cursor(0, { end_line + 1, 0 })   -- Move cursor to end line (extend selection)
+    -- Clear previous visual mode and select range
+    vim.cmd('normal! \\<Esc>') -- Ensure normal mode
+    api.nvim_win_set_cursor(0, { start_line + 1, 0 })
+    vim.cmd('normal! V')       -- Visual line mode
+
+    if start_line ~= end_line then
+        local lines_to_move = end_line - start_line
+        vim.cmd('normal! ' .. lines_to_move .. 'j')
+    end
 end
 
 return utils
