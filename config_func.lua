@@ -49,6 +49,9 @@ function config_func.setup_options()
     vim.opt.encoding = 'utf-8'
     vim.opt.fileencodings = { 'utf-8' }
 
+    -- fugitive git status pane
+    vim.opt.splitbelow = true
+
     -- Search behavior
     vim.o.hlsearch = false
     vim.o.ignorecase = true
