@@ -600,4 +600,17 @@ function plugins.nvim_emmet()
     }
 end
 
+function plugins.markdown_preview()
+    return {
+        {
+            "MeanderingProgrammer/render-markdown.nvim",
+            ft = { "markdown" },
+            opts = {},
+            keys = {
+                { "<leader>mp", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle Markdown preview" },
+            },
+        },
+    }
+end
+
 return plugins
